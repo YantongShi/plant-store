@@ -1,0 +1,1166 @@
+@font-face {
+    font-family: 'Type';
+    src: url('type.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Type', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.start-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 24px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid #fff;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Type', sans-serif;
+}
+
+.start-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container.show {
+    opacity: 1;
+}
+
+.video-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.text-container {
+    position: absolute;
+    top: 50%;
+    right: 120px;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 60px;
+}
+
+.text-column {
+    display: flex;
+    flex-direction: column;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    letter-spacing: 12px;
+}
+
+.text-line {
+    font-size: 32px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease;
+    color: #E6D5AC;
+    text-shadow: 0 0 15px rgba(230, 213, 172, 0.6);
+}
+
+/* 为inside视频中的文字添加特殊样式 */
+#insideContainer .text-line {
+    color: #FFE5B4; /* 温暖的米金色 */
+    text-shadow: 
+        0 0 8px rgba(255, 229, 180, 0.4),
+        0 0 15px rgba(255, 229, 180, 0.2); /* 两层柔和的发光效果 */
+    font-weight: 500;
+    letter-spacing: 12px;
+}
+
+/* 高亮文字样式 */
+.highlight-text {
+    color: #FF8C00; /* 深橘色 */
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        -2px -2px 4px rgba(0, 0, 0, 0.3); /* 字体阴影效果 */
+}
+
+.highlight-text.clickable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.highlight-text.clickable:hover {
+    text-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+    transform: scale(1.05);
+}
+
+.text-line.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.black-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.black-screen.show {
+    opacity: 1;
+}
+
+.black-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.center-text {
+    color: #E6D5AC;
+    font-size: 2em;
+    text-align: center;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    text-shadow: 0 0 15px rgba(230, 213, 172, 0.6);
+}
+
+.paper-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1002;
+    transition: opacity 0.5s ease;
+}
+
+.paper-container.show {
+    opacity: 1;
+}
+
+.paper-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.paper-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(0.95);
+    transition: transform 1s ease;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.paper-image.show {
+    transform: scale(1.1);
+}
+
+.paper-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.paper-title {
+    color: #2c1810;
+    font-size: 3.5em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    line-height: 1.6;
+}
+
+.paper-subtitle {
+    color: #4a3520;
+    font-size: 1.8em;
+    margin-bottom: 40px;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    line-height: 1.8;
+}
+
+.start-craft-button {
+    background-color: #d4b483;
+    color: #2c1810;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+}
+
+.start-craft-button:hover {
+    background-color: #c4a473;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.start-craft-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+    .paper-image {
+        padding: 5px;
+    }
+    
+    .paper-title {
+        font-size: 2em;
+    }
+    
+    .paper-subtitle {
+        font-size: 1.2em;
+    }
+    
+    .start-craft-button {
+        padding: 12px 30px;
+        font-size: 1em;
+    }
+}
+
+/* 植物型人格测试样式 */
+.paper-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.paper-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transform: scale(1.2);
+}
+
+.test-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.test-title {
+    text-align: center;
+    color: #2c1810;
+    font-size: 3.2em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+}
+
+.test-content {
+    max-width: 800px;
+    width: 90%;
+    padding: 40px;
+    padding-top: 140px;
+    background: transparent;
+    border-radius: 15px;
+    margin: 20px auto;
+    position: relative;
+    z-index: 3;
+}
+
+.question {
+    margin-bottom: 30px;
+    display: none;
+    padding: 20px;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.question.active {
+    display: block;
+}
+
+.question h3 {
+    color: #2c1810;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    line-height: 1.6;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option {
+    padding: 15px 15px 15px 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #2c1810;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    border: none;
+    background: transparent;
+    text-align: left;
+    font-size: 1.6em;
+    line-height: 2;
+    position: relative;
+}
+
+.option::before {
+    content: attr(data-index);
+    position: absolute;
+    left: 15px;
+    color: #8b4513;
+    font-weight: bold;
+}
+
+.option:hover {
+    transform: translateX(10px);
+    color: #8b4513;
+}
+
+.option.selected {
+    color: #8b4513;
+    font-weight: bold;
+}
+
+.result-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.result-page h2 {
+    font-size: 3.2em;
+    color: #2c1810;
+    margin-bottom: 40px;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    line-height: 1.4;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
+.result-page p {
+    font-size: 2em;
+    color: #4a3520;
+    line-height: 1.8;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
+.button-group {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.next-page {
+    background: rgba(212, 180, 131, 0.8);
+    color: #2c1810;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.3em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    letter-spacing: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    text-align: center;
+}
+
+.next-page:hover {
+    background: rgba(212, 180, 131, 1);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.prev-page {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    padding: 15px 30px;
+    background-color: #8B4513;
+    color: #F5DEB3;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.prev-page:hover, .next-page:hover {
+    background-color: #A0522D;
+    transform: translateY(-2px);
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 交互提示样式 */
+.interaction-hint {
+    position: absolute;
+    bottom: 10%;
+    left: 65%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.interaction-hint.hidden {
+    display: none;
+}
+
+.arrow {
+    font-size: 36px;
+    color: #FFE5B4;
+    animation: bounce 1s infinite;
+    transform: rotate(180deg);
+}
+
+.hint-text {
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    color: #E6D5C3;
+    font-size: 16px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
+    display: inline-block;
+    opacity: 1;
+}
+
+.interaction-hint .hint-text {
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    color: #E6D5C3;
+    font-size: 16px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.hint-text.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: rotate(180deg) translateY(0);
+    }
+    50% {
+        transform: rotate(180deg) translateY(10px);
+    }
+}
+
+/* 结果页面样式 */
+.result-page {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    padding: 20px;
+    text-align: left;
+    position: relative;
+    height: 100%;
+}
+
+.result-page.active {
+    display: block;
+    opacity: 1;
+}
+
+.page-nav {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.prev-page, .next-page {
+    background: rgba(212, 180, 131, 0.8);
+    color: #2c1810;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.prev-page:hover, .next-page:hover {
+    background: rgba(212, 180, 131, 1);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.page-indicator {
+    color: #2c1810;
+    font-size: 18px;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    background: rgba(212, 180, 131, 0.8);
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.result {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.result-paper-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(0.95);
+    transition: transform 1s ease;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.result-paper-image:hover {
+    transform: scale(1.1);
+}
+
+.paper-page {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4e4bc;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.paper-page .result-paper-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(0.95);
+    transition: transform 1s ease;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.paper-page .prev-page {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    background: rgba(212, 180, 131, 0.8);
+    color: #2c1810;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.paper-page .prev-page:hover {
+    background: rgba(212, 180, 131, 1);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.next-page {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    padding: 15px 30px;
+    background-color: #8B4513;
+    color: #F5DEB3;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.paper-page .paper-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 120px;
+}
+
+.paper-page .paper-content h2 {
+    color: #2c1810;
+    font-size: 3.2em;
+    margin-bottom: 40px;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.paper-page .paper-content p {
+    line-height: 2;
+    color: #4a3520;
+    font-size: 2em;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.paper-page h1 {
+    font-size: 3.2em;
+    color: #2c1810;
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+}
+
+.paper-page h2 {
+    font-size: 3.2em;
+    color: #2c1810;
+    margin-bottom: 40px;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    line-height: 1.4;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
+.paper-page p {
+    font-size: 2em;
+    color: #4a3520;
+    line-height: 1.8;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
+.paper-content {
+    position: relative;
+    padding: 20px;
+    padding-bottom: 100px;
+    text-align: center;
+}
+
+.paper-content h2 {
+    font-size: 3.2em;
+    color: #2c1810;
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+}
+
+.paper-content p {
+    font-size: 2em;
+    color: #4a3520;
+    line-height: 2;
+    margin: 20px 0;
+    text-align: center;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+}
+
+.paper-content p:first-of-type {
+    font-size: 2em;
+    color: #4a3520;
+    margin-bottom: 30px;
+}
+
+/* 返回按钮样式 */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 8px;
+    color: #5c4033;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 查看个性报告按钮样式 */
+.view-report-button {
+    position: absolute;
+    bottom: 160px;
+    right: 40px;
+    padding: 15px 30px;
+    background: #2c1810;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    min-width: 200px;
+    z-index: 1000;
+}
+
+.view-report-button:hover {
+    background: #4a3520;
+    transform: translateY(-2px);
+}
+
+/* 疗愈方案页面样式 */
+.healing-page {
+    position: relative;
+    padding: 20px;
+    padding-bottom: 100px;
+    text-align: center;
+}
+
+.healing-page h2 {
+    margin-bottom: 40px;
+    font-size: 3.2em;
+    color: #2c1810;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+}
+
+.healing-page p {
+    font-size: 2em;
+    color: #4a3520;
+    line-height: 2;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    white-space: pre-line;
+}
+
+/* 开始制作界面样式 */
+.start-page {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+}
+
+/* 内容区域样式 */
+.paper-content, .healing-page {
+    padding-bottom: 200px; /* 为按钮留出空间 */
+}
+
+#deskVideo {
+    max-width: 80%;
+    max-height: 70vh;
+    margin: 20px auto;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: opacity 0.5s ease;
+}
+
+.video-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    display: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.video-page video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+.video-page .prev-page {
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    padding: 15px 30px;
+    background-color: rgba(210, 180, 140, 0.85);
+    color: #4A3728;
+    border: 2px solid rgba(210, 180, 140, 0.3);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+    letter-spacing: 1px;
+    min-width: 160px;
+    text-align: center;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-page .prev-page:hover {
+    background-color: rgba(210, 180, 140, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    border-color: rgba(210, 180, 140, 0.5);
+}
+
+.video-text-container {
+    position: fixed;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    z-index: 1001;
+}
+
+.video-text-column {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.8s ease;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+}
+
+.video-text-column.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.video-text-line {
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    color: #D2B48C;
+    font-size: 32px;
+    line-height: 2;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
+    letter-spacing: 4px;
+}
+
+.video-text-line .highlight-text {
+    color: #FFA500;
+    text-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+}
+
+.grab-hint {
+    position: fixed;
+    left: 50%;
+    bottom: 55%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    z-index: 1001;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #E6D5C3;
+    animation: float 1.5s ease-in-out infinite;
+    filter: brightness(1.2);
+}
+
+.hint-text {
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    color: #E6D5C3;
+    font-size: 16px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
+    display: inline-block;
+    opacity: 1;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.plant-image-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 1002;
+    width: 35%;
+    height: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, 
+        rgba(245, 222, 179, 0.95),
+        rgba(210, 180, 140, 0.95)
+    );
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 
+        0 0 15px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.plant-image-container.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.plant-image-container.disappear {
+    animation: disappear 1s ease forwards;
+}
+
+.plant-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
+    animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes disappear {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(100%, 100%) scale(0.5);
+        opacity: 0;
+    }
+}
+
+.video-text-container {
+    transition: opacity 0.5s ease;
+    z-index: 1001;
+}
+
+.video-text-column {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.video-text-column.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#deskVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1000;
+}
+
+/* light视频结束后显示的文字容器样式 */
+.light-text-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    background: none;
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+.light-text-content {
+    background: none;
+    border-radius: 18px;
+    box-shadow: none;
+    padding: 48px 36px;
+    max-width: 900px;
+    text-align: center;
+    font-family: 'Type', 'Microsoft YaHei', sans-serif;
+    border: none;
+}
+
+.light-text-p {
+    font-family: 'type', sans-serif;
+    font-size: 2em;
+    color: #E6D5AC;
+    text-align: center;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 10px rgba(230, 213, 172, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.light-text-p .highlight {
+    font-weight: bold;
+    font-size: 1.8em;
+    display: block;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0 0 2px rgba(230, 213, 172, 0.3);
+}
+
+.light-text-p .thanks {
+    font-size: 1.8em;
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.light-text-p.hidden {
+    display: none;
+}
+
+.light-text-container.hidden {
+    display: none;
+} 
