@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物型人格测试</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js"></script>
+</head>
+<body>
+    <div class="container">
+        <button id="startButton" class="start-button">开始体验</button>
+        <div id="videoContainer" class="video-container hidden">
+            <video id="beginVideo" src="begin.mp4"></video>
+            <div class="text-container">
+                <div class="text-column">
+                    <p class="text-line">小巷里一家店铺温暖的灯光吸引了你</p>
+                </div>
+                <div class="text-column">
+                    <p class="text-line">下雨天，你误打误撞走进了一个小巷</p>
+                </div>
+            </div>
+        </div>
+        <div id="blackScreen" class="black-screen hidden">
+            <p class="center-text">你决定进店里看看</p>
+        </div>
+        <div id="insideContainer" class="video-container hidden">
+            <video id="insideVideo" src="inside.mp4"></video>
+            <div class="text-container">
+                <div class="text-column">
+                    <p class="text-line">温暖的灯光充盈着整个店铺</p>
+                </div>
+                <div class="text-column">
+                    <p class="text-line">店铺里有各种各样漂亮的植物标本</p>
+                </div>
+                <div class="text-column">
+                    <p class="text-line">这时，<span class="highlight-text clickable">飘到地上的牛皮纸</span>吸引了你的视线</p>
+                </div>
+            </div>
+            <div class="interaction-hint hidden">
+                <div class="arrow">↑</div>
+                <p class="hint-text">捡起牛皮纸</p>
+            </div>
+        </div>
+        <div id="paperContainer" class="paper-container hidden">
+            <div class="paper-wrapper">
+                <img src="paper.jpg" alt="牛皮纸" class="paper-image">
+                <div class="paper-content">
+                    <h1 class="paper-title">欢迎你进入植物解忧铺</h1>
+                    <p class="paper-subtitle">放松心情，制作属于自己的植物标本</p>
+                    <button class="start-craft-button">开始制作</button>
+                </div>
+            </div>
+        </div>
+        <div id="testContainer" class="paper-container hidden">
+            <div class="paper-wrapper">
+                <img src="paper.jpg" alt="牛皮纸" class="paper-image">
+                <div class="test-container">
+                    <div class="test-content">
+                        <h1 class="test-title">寻找你的专属植物</h1>
+                        <div id="questionContainer" class="question-container">
+                            <!-- 问题将通过 JavaScript 动态添加 -->
+                        </div>
+                    </div>
+                                </div>
+                            </div>
+                                </div>
+        <div id="resultContainer" class="paper-container hidden">
+            <div class="paper-wrapper">
+                <img src="paper.jpg" alt="牛皮纸" class="paper-image">
+                <div class="test-container">
+                    <div class="test-content">
+                        <div class="result-page active" data-page="1">
+                            <h2 id="personality-type"></h2>
+                            <p id="personality-description"></p>
+                            <div class="button-group">
+                                <button class="next-page" onclick="goToPaper()">查看个性报告</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="paperPage" class="paper-container hidden">
+            <div class="paper-wrapper">
+                <img src="paper.jpg" alt="牛皮纸" class="paper-image">
+                <div class="test-container">
+                    <div class="test-content">
+                        <div class="paper-content">
+                            <h2 id="analysis-title"></h2>
+                            <p id="analysis-content"></p>
+                        </div>
+                        <button class="next-page" onclick="backToResult()">返回结果</button>
+                        <button class="next-page" onclick="goToHealing()">查看疗愈方案</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="healingPage" class="paper-container hidden">
+            <div class="paper-wrapper">
+                <img src="paper.jpg" alt="牛皮纸" class="paper-image">
+                <div class="test-container">
+                    <div class="test-content">
+                        <div class="healing-page">
+                            <h2 id="healing-title"></h2>
+                            <p id="healing-content"></p>
+                        </div>
+                        <button class="next-page" onclick="backToAnalysis()">返回分析</button>
+                        <button class="next-page" onclick="claimPlant()">认领我的专属植物</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="videoPage" class="video-page">
+            <video id="deskVideo">
+                <source src="desk.mp4" type="video/mp4">
+            </video>
+            <div class="video-text-container">
+                <div class="video-text-column">
+                    <p class="video-text-line">你看到了许多在玻璃瓶里的植物标本</p>
+                </div>
+                <div class="video-text-column">
+                    <p class="video-text-line">请<span class="highlight-text">挑选</span>属于自己的植物标本</p>
+                </div>
+            </div>
+            <div class="grab-hint hidden">
+                <div class="arrow-down"></div>
+                <span class="hint-text">抓取玻璃瓶</span>
+            </div>
+            <button class="prev-page" onclick="backToHealing()">返回疗愈方案</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

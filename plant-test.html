@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物型人格测试</title>
+    <style>
+        @font-face {
+            font-family: 'Type';
+            src: url('type.ttf') format('truetype');
+        }
+        
+        body {
+            font-family: 'Type', 'Microsoft YaHei', sans-serif;
+            background: url('paper.jpg') repeat;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #2c1810;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 248, 240, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('paper.jpg') repeat;
+            opacity: 0.1;
+            border-radius: 10px;
+            z-index: -1;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c1810;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .question {
+            margin-bottom: 30px;
+            display: none;
+            background: rgba(255, 248, 240, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .option {
+            padding: 15px;
+            border: 2px solid #d4b483;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 248, 240, 0.6);
+        }
+        
+        .option:hover {
+            background-color: rgba(212, 180, 131, 0.2);
+            transform: translateX(10px);
+        }
+        
+        .option.selected {
+            background-color: rgba(212, 180, 131, 0.3);
+            border-color: #8b4513;
+            box-shadow: 0 0 10px rgba(139, 69, 19, 0.2);
+        }
+        
+        .result {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 248, 240, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .result h2 {
+            color: #2c1810;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .result p {
+            line-height: 1.6;
+            color: #4a3520;
+            font-size: 1.1em;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #8b4513;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Type', 'Microsoft YaHei', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #6b3410;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>植物型人格测试</h1>
+        <div id="questions">
+            <!-- 问题将通过JavaScript动态添加 -->
+        </div>
+        <div class="result" id="result">
+            <h2>你的植物型人格是：<span id="personality-type"></span></h2>
+            <div id="personality-description"></div>
+        </div>
+    </div>
+    <script src="plant-test.js"></script>
+</body>
+</html> 
