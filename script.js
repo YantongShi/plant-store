@@ -260,11 +260,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const isPinkyStraight = pinky.y < pinkyMCP.y - 0.02;
         const isThumbStraight = Math.abs(thumb.x - thumbMCP.x) > 0.03; // 拇指横向伸直
 
-        // 检测数字手势（1、2、3）
-        const isNumberOneGesture = isIndexFingerUp && isMiddleFingerDown && isRingFingerDown && isPinkyDown;
-        const isNumberTwoGesture = isIndexFingerStraight && isMiddleFingerStraight && isRingFingerDown && isPinkyDown;
-        const isNumberThreeGesture = isIndexFingerStraight && isMiddleFingerStraight && isRingFingerStraight && isPinkyDown;
-
         // 检测捏起手势（拇指、食指、中指指尖接触）
         const thumbIndexDistance = Math.hypot(thumb.x - indexFinger.x, thumb.y - indexFinger.y);
         const thumbMiddleDistance = Math.hypot(thumb.x - middleFinger.x, thumb.y - middleFinger.y);
@@ -299,12 +294,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         ctx.fillText(`点击手势: ${isClickGesture ? '✓' : '✗'}`, 5, 70);
         ctx.fillText(`翻页手势: ${isPageTurnGesture ? '✓' : '✗'}`, 5, 80);
-        ctx.fillText(`数字1: ${isNumberOneGesture ? '✓' : '✗'}`, 5, 90);
-        ctx.fillText(`数字2: ${isNumberTwoGesture ? '✓' : '✗'}`, 5, 100);
-        ctx.fillText(`数字3: ${isNumberThreeGesture ? '✓' : '✗'}`, 5, 110);
-        ctx.fillText(`捏起手势: ${isPinchGesture ? '✓' : '✗'}`, 5, 120);
-        ctx.fillText(`抓取手势: ${allFingersSpread ? '张开' : allFingersClosed ? '握拳' : '---'}`, 5, 130);
-        ctx.fillText(`拖拽手势: ${isFist ? '✓' : '✗'}`, 5, 140);
+        ctx.fillText(`捏起手势: ${isPinchGesture ? '✓' : '✗'}`, 5, 90);
+        ctx.fillText(`抓取手势: ${allFingersSpread ? '张开' : allFingersClosed ? '握拳' : '---'}`, 5, 100);
+        ctx.fillText(`拖拽手势: ${isFist ? '✓' : '✗'}`, 5, 110);
 
         // 点击手势检测
         if (isClickGesture) {
@@ -316,18 +308,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isPageTurnGesture) {
             console.log('检测到翻页手势');
             handlePageTurnGesture();
-        }
-
-        // 数字手势检测（用于测试界面选择选项）
-        if (isNumberOneGesture) {
-            console.log('检测到数字1手势');
-            handleNumberGesture(1);
-        } else if (isNumberTwoGesture) {
-            console.log('检测到数字2手势');
-            handleNumberGesture(2);
-        } else if (isNumberThreeGesture) {
-            console.log('检测到数字3手势');
-            handleNumberGesture(3);
         }
 
         // 捏起手势检测
@@ -366,49 +346,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let dragStartPosition = null;
     let isDragging = false;
     let lastDragTime = 0;
-    let lastNumberGestureTime = 0;
-
-    // 处理数字手势（用于测试界面）
-    function handleNumberGesture(number) {
-        const currentTime = Date.now();
-        // 防止重复触发，至少间隔1秒
-        if (currentTime - lastNumberGestureTime < 1000) return;
-
-        console.log(`正在处理数字${number}手势...`);
-
-        // 检查是否在测试界面
-        const testContainer = document.getElementById('testContainer');
-        if (!testContainer || testContainer.classList.contains('hidden')) {
-            console.log('不在测试界面，忽略数字手势');
-            return;
-        }
-
-        // 获取当前显示的选项
-        const options = document.querySelectorAll('#testContainer .option');
-        if (options.length === 0) {
-            console.log('没有找到选项，忽略数字手势');
-            return;
-        }
-
-        // 检查选项数量，确保不超出范围
-        if (number > options.length) {
-            console.log(`选项${number}超出范围（共${options.length}个选项）`);
-            return;
-        }
-
-        // 触发对应选项的点击
-        const targetOption = options[number - 1]; // 数组从0开始，所以要减1
-        if (targetOption && !targetOption.classList.contains('selected')) {
-            console.log(`触发选项${number}的选择`);
-            
-            // 显示手势成功通知
-            showGestureNotification(`手势选择选项${number}`, '#4CAF50');
-            
-            // 触发选项点击
-            targetOption.click();
-            lastNumberGestureTime = currentTime;
-        }
-    }
 
     // 处理点击手势
     function handleClickGesture() {
@@ -453,24 +390,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!pageTurnStartTime) {
             pageTurnStartTime = currentTime;
             console.log('开始翻页手势计时');
-            
-            // 在画布上显示倒计时
-            const ctx = handCanvas.getContext('2d');
-            ctx.fillStyle = 'yellow';
-            ctx.font = 'bold 16px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('保持手掌张开...', handCanvas.width / 2, handCanvas.height / 2);
+            showGestureNotification('保持手掌张开...', '#FFD700');
             return;
         }
 
         // 显示倒计时（改为3秒）
         const remainingTime = 3 - Math.floor((currentTime - pageTurnStartTime) / 1000);
         if (remainingTime > 0) {
-            const ctx = handCanvas.getContext('2d');
-            ctx.fillStyle = 'yellow';
-            ctx.font = 'bold 20px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(`翻页倒计时: ${remainingTime}`, handCanvas.width / 2, handCanvas.height / 2 + 30);
+            showGestureNotification(`翻页倒计时: ${remainingTime}`, '#FFD700');
         }
 
         // 检查是否持续3秒（修改）
@@ -1150,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         // 3. 测试页面
         else if (testContainer && !testContainer.classList.contains('hidden')) {
-            gestureHintBox.textContent = '手势1/2/3 / 说出选项1/2/3';
+            gestureHintBox.textContent = '说出选项1/2/3';
         }
         // 4. 结果页面
         else if (resultContainer && !resultContainer.classList.contains('hidden')) {
